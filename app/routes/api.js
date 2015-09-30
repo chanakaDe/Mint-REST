@@ -109,7 +109,7 @@ module.exports = function (app, express) {
             });
         })
         .get(function (req, res) {
-            Story.find({owner: req.decoded.id}, function (err, stories) {
+            Story.find({owner: req.decoded._id}, function (err, stories) {
                 if (err) {
                     res.send(err);
                     return

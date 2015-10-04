@@ -73,7 +73,7 @@ module.exports = function (app, express) {
         });
     });
 
-// Create logging check middleware.
+    //Create logging check middleware.
     api.use(function (req, res, next) {
         console.log("Somebody logged into system");
         var token = req.body.token || req.param('token') || req.headers['x-access-token'];

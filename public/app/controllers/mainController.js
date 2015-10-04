@@ -1,7 +1,7 @@
 /**
  * Created by chanaka on 10/4/15.
  */
-angular.module('mainController', [])
+angular.module('mainCtrl', [])
 
     .controller('mainController', function ($rootScope, $location, Auth) {
         var vm = this;

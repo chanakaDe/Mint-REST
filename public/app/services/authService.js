@@ -114,5 +114,7 @@ angular.module('authService', [])
                 $location.path('/login');
             }
             return $q.reject(response);
-        }
+        };
+
+        return interceptorFactory;
     });

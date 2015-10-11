@@ -28,13 +28,17 @@ module.exports = function (app, express) {
             username: req.body.username,
             password: req.body.password
         });
-
+        var toekn = createToken(user);
         user.save(function (err) {
             if (err) {
                 res.send(err);
                 return;
             }
-            res.json({message: "User has been created !!!!"});
+            res.json({
+                success: true,
+                message: "User has been created",
+                token: toekn
+            });
         });
     });
 
@@ -73,6 +77,30 @@ module.exports = function (app, express) {
         });
     });
 
+    /**
+     * Get all user stories from server..
+     */
+    api.get('/stories', function (req, res) {
+        Story.find({}, function (err, stories) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(stories);
+        });
+    });
+
+    // Get specific story details with provided story id.
+    api.get('/story', function (req, res) {
+        Story.find({_id: req.param('id')}, function (err, story) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(story);
+        });
+    });
+
     //Create logging check middleware.
     api.use(function (req, res, next) {
         console.log("Somebody logged into system");
@@ -93,36 +121,44 @@ module.exports = function (app, express) {
         }
     });
 
-    //Creating multi routes.
-    api.route('/post')
-        .post(function (req, res) {
-            var story = new Story({
-                owner: req.decoded._id,
-                content: req.body.content
-            });
-            story.save(function (err) {
-                if (err) {
-                    res.status(500).send(err);
-                    return
-                }
-                res.json({message: "New Story Created"});
-            });
-        })
-        .get(function (req, res) {
-            Story.find({owner: req.decoded._id}, function (err, stories) {
-                if (err) {
-                    res.send(err);
-                    return
-                }
-                res.json(stories);
-            });
+
+    /**
+     * Create new story.
+     */
+    api.post('/story', function (req, res) {
+        var story = new Story({
+            owner: req.decoded._id,
+            title: req.body.title,
+            content: req.body.content
         });
+        story.save(function (err) {
+            if (err) {
+                res.status(500).send(err);
+                return
+            }
+            res.json({message: "New Story Created"});
+        });
+    });
+
+    /**
+     * Get all user stories from server with registered user id..
+     */
+    api.get('/story', function (req, res) {
+        Story.find({owner: req.decoded._id}, function (err, stories) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(stories);
+        });
+    });
 
     /**
      * Getting about logged user.
      */
     api.get('/me', function (req, res) {
-        res.send(req.decoded);
+        res.json(req.decoded);
+        console.log(req.decoded);
     });
 
     // Returning the api.

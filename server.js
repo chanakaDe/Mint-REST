@@ -6,7 +6,15 @@ var mongoose = require("mongoose");
 var cors = require('cors');
 
 var app = express();
+
+/**
+ * Using CORS to reduce CROSS Origine.
+ */
 app.use(cors());
+
+/**
+ * Connecting to MongoDB using Mongoose.
+ */
 mongoose.connect(config.database, function (err) {
     if (err) {
         console.error(err);

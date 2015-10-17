@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+/**
+ * Creating Story Schema.
+ * @type {*|Schema}
+ */
 var StorySchema = new Schema({
 
     owner: String,

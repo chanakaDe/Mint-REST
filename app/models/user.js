@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
+/**
+ * Creating user schema.
+ * @type {*|Schema}
+ */
 var UserSchema = new Schema({
 
     name: String,
@@ -10,6 +14,9 @@ var UserSchema = new Schema({
 
 });
 
+/**
+ * Encrypting the user password.
+ */
 UserSchema.pre('save', function (next) {
 
     var user = this;

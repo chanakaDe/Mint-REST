@@ -4,7 +4,11 @@ var config = require('../../config');
 var secretKey = config.secretKey;
 var jsonwebtoken = require('jsonwebtoken');
 
-// Create a new token for logged in user.
+/**
+ * Create new user token for verification.
+ * @param user
+ * @returns {number}
+ */
 function createToken(user) {
     var token = jsonwebtoken.sign({
         _id: user._id,
@@ -20,7 +24,9 @@ module.exports = function (app, express) {
 
     var api = express.Router();
 
-    // Save new user to the system.
+    /**
+     * Create new user and save in database.
+     */
     api.post('/signup', function (req, res) {
 
         var user = new User({
@@ -42,7 +48,9 @@ module.exports = function (app, express) {
         });
     });
 
-    // Get all users from the system.
+    /**
+     * Get all users from the database.
+     */
     api.get('/users', function (req, res) {
         User.find({}, function (err, users) {
             if (err) {
@@ -53,7 +61,10 @@ module.exports = function (app, express) {
         });
     });
 
-    // Create new login for users.
+    /**
+     * Taking username and password.
+     * Creating a new login.
+     */
     api.post('/login', function (req, res) {
         User.findOne({
             username: req.body.username
@@ -90,7 +101,10 @@ module.exports = function (app, express) {
         });
     });
 
-    // Get specific story details with provided story id.
+    /**
+     * Get specific story details from server
+     * with provided story id.
+     */
     api.get('/story', function (req, res) {
         Story.find({_id: req.param('id')}, function (err, story) {
             if (err) {
@@ -101,7 +115,10 @@ module.exports = function (app, express) {
         });
     });
 
-    //Create logging check middleware.
+    /**
+     * Check logged status in order to
+     * give permission to following links.
+     */
     api.use(function (req, res, next) {
         console.log("Somebody logged into system");
         var token = req.body.token || req.param('token') || req.headers['x-access-token'];
@@ -161,6 +178,8 @@ module.exports = function (app, express) {
         console.log(req.decoded);
     });
 
-    // Returning the api.
+    /**
+     * Returning the API.
+     */
     return api;
 };

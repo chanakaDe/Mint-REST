@@ -3,7 +3,6 @@ var Story = require('../models/story');
 var config = require('../../config');
 var secretKey = config.secretKey;
 var jsonwebtoken = require('jsonwebtoken');
-
 /**
  * Create new user token for verification.
  * @param user
@@ -19,16 +18,12 @@ function createToken(user) {
     });
     return token;
 }
-
 module.exports = function (app, express) {
-
     var api = express.Router();
-
     /**
      * Create new user and save in database.
      */
     api.post('/signup', function (req, res) {
-
         var user = new User({
             name: req.body.name,
             username: req.body.username,
@@ -47,7 +42,6 @@ module.exports = function (app, express) {
             });
         });
     });
-
     /**
      * Get all users from the database.
      */
@@ -60,7 +54,6 @@ module.exports = function (app, express) {
             res.json(users);
         });
     });
-
     /**
      * Taking username and password.
      * Creating a new login.
@@ -87,7 +80,6 @@ module.exports = function (app, express) {
             }
         });
     });
-
     /**
      * Get all user stories from server..
      */
@@ -100,7 +92,6 @@ module.exports = function (app, express) {
             res.json(stories);
         });
     });
-
     /**
      * Get specific story details from server
      * with provided story id.
@@ -114,7 +105,6 @@ module.exports = function (app, express) {
             res.json(story);
         });
     });
-
     /**
      * Check logged status in order to
      * give permission to following links.
@@ -137,8 +127,6 @@ module.exports = function (app, express) {
             res.status(403).send({success: false, message: "No valid token provided"});
         }
     });
-
-
     /**
      * Create new story.
      */
@@ -156,7 +144,6 @@ module.exports = function (app, express) {
             res.json({message: "New Story Created"});
         });
     });
-
     /**
      * Get all user stories from server with registered user id..
      */
@@ -169,7 +156,6 @@ module.exports = function (app, express) {
             res.json(stories);
         });
     });
-
     /**
      * Getting about logged user.
      */
@@ -177,7 +163,6 @@ module.exports = function (app, express) {
         res.json(req.decoded);
         console.log(req.decoded);
     });
-
     /**
      * Returning the API.
      */

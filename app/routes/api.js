@@ -105,6 +105,21 @@ module.exports = function (app, express) {
             res.json(story);
         });
     });
+
+    /**
+     * Removing the selected story
+     * from server.
+     */
+    api.get('/remove_story', function (req, res) {
+        Story.remove({_id: req.param('id')}, function (err) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json({message : "Successfuly removed" , type : "success"});
+        });
+    });
+
     /**
      * Check logged status in order to
      * give permission to following links.
@@ -147,7 +162,7 @@ module.exports = function (app, express) {
     /**
      * Get all user stories from server with registered user id..
      */
-    api.get('/story', function (req, res) {
+    api.get('/story_of_user', function (req, res) {
         Story.find({owner: req.decoded._id}, function (err, stories) {
             if (err) {
                 res.send(err);

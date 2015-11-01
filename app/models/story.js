@@ -9,6 +9,8 @@ var StorySchema = new Schema({
     owner: String,
     title: String,
     content: String,
+    category : String,
+    publishStatus : String,
     created: {type: Date, default: Date.now}
 });
 

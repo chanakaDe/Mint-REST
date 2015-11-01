@@ -84,7 +84,7 @@ module.exports = function (app, express) {
      * Get all user stories from server..
      */
     api.get('/stories', function (req, res) {
-        Story.find({}, function (err, stories) {
+        Story.find({'publishStatus':1}, function (err, stories) {
             if (err) {
                 res.send(err);
                 return
@@ -149,7 +149,9 @@ module.exports = function (app, express) {
         var story = new Story({
             owner: req.decoded._id,
             title: req.body.title,
-            content: req.body.content
+            content: req.body.content,
+            category : req.body.category,
+            publishStatus : req.body.publishStatus
         });
         story.save(function (err) {
             if (err) {
@@ -178,6 +180,42 @@ module.exports = function (app, express) {
         res.json(req.decoded);
         console.log(req.decoded);
     });
+
+    /**
+    * Update story model with data from req.
+    **/
+    api.post('/update_story', function (req, res) {
+        var story = {
+            owner: req.decoded._id,
+            title: req.body.title,
+            content: req.body.content,
+            category : req.body.category,
+            publishStatus : req.body.publishStatus
+        };
+        console.log("Story : ", story);
+        Story.findOneAndUpdate({'_id': req.body.storyId} , story , function (err) {
+            if (err) {
+                res.status(500).send(err);
+                return
+            }
+            res.json({message: "Story updated successfully"});
+        });
+    });
+
+    /**
+    * Search all the stories and return data that matches with
+    * provided query and critiria.
+    **/
+    api.get('/search_story', function (req, res) {
+        Story.find({'content' : new RegExp(req.param('query'), 'i')}, function (err, stories) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(stories);
+        });
+    });
+
     /**
      * Returning the API.
      */

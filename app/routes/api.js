@@ -12,7 +12,8 @@ function createToken(user) {
     var token = jsonwebtoken.sign({
         _id: user._id,
         name: user.name,
-        username: user.username
+        username: user.username,
+        email: user.email
     }, secretKey, {
         expirtsInMinute: 1440
     });
@@ -27,6 +28,7 @@ module.exports = function (app, express) {
         var user = new User({
             name: req.body.name,
             username: req.body.username,
+            email: req.body.email,
             password: req.body.password
         });
         var toekn = createToken(user);
@@ -121,6 +123,46 @@ module.exports = function (app, express) {
     });
 
     /**
+     * Search all the stories and return data that matches with
+     * provided query and criteria.
+     **/
+    api.get('/search_story', function (req, res) {
+        Story.find({ $and: [{'content': new RegExp(req.param('query'), 'i')},{'publishStatus': 1}]}, function (err, stories) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(stories);
+        });
+    });
+
+    /**
+     * Search stories according to the given category.
+     */
+    api.get('/search_story_by_category', function (req, res) {
+        Story.find({$and: [{category: req.param('category')},{'publishStatus': 1}]}, function (err, stories) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(stories);
+        });
+    });
+
+    /**
+    * Search with the username and check if there is a user available or not.
+    **/
+    api.get('/searchUserWithEmail', function (req, res) {
+        User.findOne({email: req.param('email')}, function (err, user) {
+            if (err) {
+                res.send(err);
+                return
+            }
+            res.json(user);
+        });
+    });
+
+    /**
      * Check logged status in order to
      * give permission to following links.
      */
@@ -199,33 +241,6 @@ module.exports = function (app, express) {
                 return
             }
             res.json({message: "Story updated successfully"});
-        });
-    });
-
-    /**
-     * Search all the stories and return data that matches with
-     * provided query and criteria.
-     **/
-    api.get('/search_story', function (req, res) {
-        Story.find({ $and: [{'content': new RegExp(req.param('query'), 'i')},{'publishStatus': 1}]}, function (err, stories) {
-            if (err) {
-                res.send(err);
-                return
-            }
-            res.json(stories);
-        });
-    });
-
-    /**
-     * Search stories according to the given category.
-     */
-    api.get('/search_story_by_category', function (req, res) {
-        Story.find({$and: [{category: req.param('category')},{'publishStatus': 1}]}, function (err, stories) {
-            if (err) {
-                res.send(err);
-                return
-            }
-            res.json(stories);
         });
     });
 

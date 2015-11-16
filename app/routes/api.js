@@ -3,6 +3,8 @@ var Story = require('../models/story');
 var config = require('../../config');
 var secretKey = config.secretKey;
 var jsonwebtoken = require('jsonwebtoken');
+var nodemailer = require("nodemailer");
+
 /**
  * Create new user token for verification.
  * @param user
@@ -43,6 +45,31 @@ module.exports = function (app, express) {
                 token: toekn
             });
         });
+        //    Sending email
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'user@gmail.com',
+                pass: 'pass'
+            }
+        });
+
+        var mailOptions = {
+            from: 'SilentKiller ✔ <foo@blurdybloop.com>', // sender address
+            to: 'user@hotmail.com', // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: 'Hello world ✔', // plaintext body
+            html: '<b>Hello world ✔</b>' // html body
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: ' + info.response);
+
+        });
+        //    End of sending email
     });
     /**
      * Get all users from the database.
@@ -127,7 +154,7 @@ module.exports = function (app, express) {
      * provided query and criteria.
      **/
     api.get('/search_story', function (req, res) {
-        Story.find({ $and: [{'content': new RegExp(req.param('query'), 'i')},{'publishStatus': 1}]}, function (err, stories) {
+        Story.find({$and: [{'content': new RegExp(req.param('query'), 'i')}, {'publishStatus': 1}]}, function (err, stories) {
             if (err) {
                 res.send(err);
                 return
@@ -140,7 +167,7 @@ module.exports = function (app, express) {
      * Search stories according to the given category.
      */
     api.get('/search_story_by_category', function (req, res) {
-        Story.find({$and: [{category: req.param('category')},{'publishStatus': 1}]}, function (err, stories) {
+        Story.find({$and: [{category: req.param('category')}, {'publishStatus': 1}]}, function (err, stories) {
             if (err) {
                 res.send(err);
                 return
@@ -150,8 +177,8 @@ module.exports = function (app, express) {
     });
 
     /**
-    * Search with the username and check if there is a user available or not.
-    **/
+     * Search with the username and check if there is a user available or not.
+     **/
     api.get('/searchUserWithEmail', function (req, res) {
         User.findOne({email: req.param('email')}, function (err, user) {
             if (err) {
@@ -200,7 +227,7 @@ module.exports = function (app, express) {
                 res.status(500).send(err);
                 return
             }
-            res.json({message: "New Story Created",type : "success",code:200});
+            res.json({message: "New Story Created", type: "success", code: 200});
         });
     });
     /**

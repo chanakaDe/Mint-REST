@@ -53,6 +53,56 @@ password: ""
 }
 ```
 
+#### Users get all URL
+http://localhost:3000/api/users
+
+#### Stories get all URL
+http://localhost:3000/api/stories
+
+#### Get specific story with story ID URL
+http://localhost:3000/api/story?id=1
+
+#### Delete specific story with story ID URL
+http://localhost:3000/api/remove_story?id=1
+
+#### Search specific story with story ID URL
+http://localhost:3000/api/search_story?query=mongo
+
+#### Search stories according to category URL
+http://localhost:3000/api/search_story_by_category?category=java
+
+#### Search specific user with email URL
+http://localhost:3000/api/searchUserWithEmail?email=chanu1993@gmail.com
+
+> To access following links, user must be logged into the system and has a token.
+
+#### Create new story URL
+http://localhost:3000/api/story
+```javascript
+{
+owner: "",
+title: "",
+content: "",
+category: "",
+publishStatus: ""
+}
+```
+
+#### Get all stories according to user ID URL
+http://localhost:3000/api/story_of_user
+
+#### Update story URL
+http://localhost:3000/api/update_story
+```javascript
+{
+owner: "",
+title: "",
+content: "",
+category: "",
+publishStatus: ""
+}
+```
+
 ### References
 [http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html](http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html)
 

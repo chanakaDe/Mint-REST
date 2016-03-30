@@ -1,6 +1,6 @@
 # Mint-REST
 
-##### A simple rest api using Node.js , MongoDB , Express and Mongoose as the ORM. Specially designed for blogging platforms.
+##### A simple rest api using Node.js , MongoDB , Express and Mongoose as the ORM. Specially designed for blogging platforms and social netwroks.
 
 ### Overview
 

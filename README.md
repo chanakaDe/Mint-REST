@@ -30,6 +30,25 @@ And make sure your MongoDB server is running.
 See the config.js file for more configuration options.
 You can change your app's secreet key , MongoDB host and also app's default port.
 
+### Api documentation
+
+#### Signup URL
+http://localhost:3000/api/signup
+This is the object have to passed.
+{
+ name: "",
+ username: "",
+ email: "",
+ password: ""
+}
+
+#### Login URL
+http://localhost:3000/api/login
+{
+username: "",
+password: ""
+}
+
 ### References
 [http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html](http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html)
 

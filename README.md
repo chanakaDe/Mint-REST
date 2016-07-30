@@ -103,6 +103,10 @@ publishStatus: ""
 }
 ```
 
+### Procedure to run
+    * clone/download repository
+    * npm install
+    * node app.es6.js
 ### References
 [http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html](http://projectslanka.blogspot.com/2015/10/create-restful-api-using-nodejs-part-2.html)
 

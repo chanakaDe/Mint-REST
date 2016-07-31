@@ -65,7 +65,7 @@ export default (router) => {
         name : user.name,
         resetLink : "http://localhost:3000/api/resetpassword"
       }
-      EMAIL.sendResetPasswordMail(token);
+      EMAIL.sendResetPasswordMail(content);
     })
   });
 

@@ -53,6 +53,7 @@ export default class Mail{
      * }
      */
     sendResetPasswordMail(content){
+        console.log('content to mail ',content);
         mailComposer.resetPasswordMail(content).then((result) => {
             let mailOption = {
                 from : config.email.defaultFrom,

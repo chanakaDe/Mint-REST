@@ -8,7 +8,8 @@ let errorMessages = {
 
 let successMessages = {
     STORY_REMOVED : "Stroy removed successfully",
-    STORY_UPDATED : "Stroy updated successfully"
+    STORY_UPDATED : "Stroy updated successfully",
+    PASSWORD_CHANGED : "Password changed successfully"
 }
 
 export {errorMessages, successMessages};

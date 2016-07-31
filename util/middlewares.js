@@ -1,6 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 import config from './config';
-import {errorMessages as errorCode} from './constant'
+import {errorMessages as errorCode} from './constant';
+import bcrypt from 'bcrypt-nodejs';
 
 export default class Middleware{
 
@@ -32,6 +33,10 @@ export default class Middleware{
         } else {
             res.status(403).send({success: false, message: errorCode.INVALID_TOKEN});
         }
+    }
+
+    static hashPassword(password){
+        return bcrypt.hashSync(password);
     }
 
 }

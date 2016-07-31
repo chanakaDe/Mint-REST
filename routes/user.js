@@ -29,7 +29,7 @@ export default (router) => {
       /**
        * Sending email to registered user.
        */
-      EMAIL.sendWelcomeMail(user.email);
+      EMAIL.sendWelcomeMail(user);
     });
     
   });
@@ -48,6 +48,44 @@ export default (router) => {
         let token = Middleware.createToken(data);
         res.send({success:true,token:token});
       });
+  });
+
+  /**
+   * send reset password email to user
+   */
+  router.post('/resetpassword',(req,res) => {
+    USER.getByEmail(req.body.email,(user) => {
+      if(user.error){
+        res.send(user);
+        return;
+      }
+      let token = Middleware.createToken(user);
+      let content = {
+        to : user.email,
+        name : user.name,
+        resetLink : "http://localhost:3000/api/resetpassword"
+      }
+      EMAIL.sendResetPasswordMail(token);
+    })
+  });
+
+  /**
+   * change the user password
+   */
+  router.patch('/resetpassword', Middleware.validateToken, (req,res) => {
+    let content = {
+      _id : req.decoded._id,
+      password : Middleware.hashPassword(req.body.password)
+    }
+
+    USER.changePassword(content, (data) => {
+      if (data.err) {
+          res.status(500).send(err);
+          return
+      }
+      res.send(data);
+    });
+
   });
 
   /**

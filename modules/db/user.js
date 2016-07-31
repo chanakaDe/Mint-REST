@@ -3,7 +3,7 @@
  * 
  */
 import * as db from './schema/index';
-import {errorMessages as errorCode}  from '../../util/constant';
+import {errorMessages as errorCode , successMessages as successCode}  from '../../util/constant';
 
 export default class User {
 
@@ -78,7 +78,19 @@ export default class User {
 
             callback (users);
         })
-    }
+    };
+
+
+    changePassword(data,callback){
+        db.User.findByIdAndUpdate(data._id,{$set : {password: data.password}}, (err, user) => {
+             if(err){
+                callback ({error:true,errorTrace:err});
+                return;
+            }
+
+            callback ({success:true, message : successCode.PASSWORD_CHANGED});
+        });
+    };
 
 
 
